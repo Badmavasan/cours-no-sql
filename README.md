@@ -7,7 +7,8 @@ Cours de bases de données NoSQL en français : une séance de cours (MongoDB, d
 ```
 cours-no-sql/
 ├── cours-1/                      Séance 1 · 9h00 → 13h45
-│   ├── slides/nosql-seance-1.pdf   Le deck (72 écrans)
+│   ├── slides/nosql-seance-1.pdf     Le deck (72 écrans, français)
+│   ├── slides/nosql-session-1-en.pdf Same deck in English
 │   ├── README.md                   Comment présenter et lancer le lab
 │   └── lab/                        Hands-on « Zwipe » (MongoDB 7 en Docker, port 27017)
 │       ├── docker-compose.yml

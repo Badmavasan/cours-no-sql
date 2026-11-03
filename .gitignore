@@ -8,6 +8,7 @@ tp-1/corrige/*.local.*
 
 # Source interactive du deck (non publiée : seul le PDF est versionné)
 cours-1/index.html
+cours-1/index-en.html
 cours-1/theme.css
 cours-1/check*.html
 **/shots/

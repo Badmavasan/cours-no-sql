@@ -7,6 +7,7 @@ Séance en français, 9h00 → 13h45 (3h de cours puis TP `../tp-1/`) : ice-brea
 | Fichier | Rôle |
 |---|---|
 | `slides/nosql-seance-1.pdf` | Le deck (72 écrans, 16:9, toutes les animations dépliées). |
+| `slides/nosql-session-1-en.pdf` | Le même deck en anglais. |
 | `lab/docker-compose.yml` | MongoDB 7 + mongo-express. |
 | `lab/seed.js` | Jeu de données « Zwipe » déterministe (50 users, 200 vidéos, 500 commentaires, 2000 événements). |
 | `lab/exercices.md` | Feuille d'exercices étudiants, résultats attendus repliés. |
