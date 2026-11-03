@@ -1,0 +1,22 @@
+// Corrigé exécutable — ne pas distribuer avant la séance
+print("A1"); printjson(db.videos.find({ duree: { $gt: 150 } }, { titre: 1, duree: 1, _id: 0 }).sort({ duree: -1 }).limit(3).toArray());
+print("A2"); print(db.users.countDocuments({ pays: "FR", age: { $lt: 20 } }));
+print("A3"); printjson(db.videos.find({ hashtags: "#cdm2026", vues: { $gte: 1000000 } }, { titre: 1, vues: 1, _id: 0 }).sort({ vues: -1 }).limit(3).toArray());
+print("A4"); print(db.videos.countDocuments({ produit: { $exists: true }, "produit.prix": { $lt: 30 } }));
+print("A5"); printjson(db.users.find({ badges: { $all: ["verifie", "createur"] } }, { pseudo: 1, _id: 0 }).toArray());
+print("A6"); print(db.comments.countDocuments({ reponses: { $elemMatch: { likes: { $gte: 40 } } } }));
+print("A7"); print(db.videos.countDocuments({ $expr: { $gt: ["$likes", { $multiply: ["$vues", 0.17] }] } }));
+print("A8"); printjson(db.videos.find({ $or: [{ "son.artiste": null }, { "son.artiste": { $exists: false } }], sousTitres: { $size: 3 } }, { titre: 1, sousTitres: 1, _id: 0 }).toArray());
+print("A8b"); print(db.videos.countDocuments({ "son.artiste": null, sousTitres: { $size: 3 } }));
+print("B1"); printjson(db.users.insertOne({ pseudo: "moi.nosql", pays: "FR", abonnements: [], badges: ["early"], inscritLe: new Date("2026-11-02T09:00:00Z") }));
+print("B2"); const moi = db.users.findOne({ pseudo: "moi.nosql" }); printjson(db.videos.insertOne({ auteur: moi._id, titre: "Ma première vidéo", duree: 15, vues: 0, likes: 0, hashtags: ["#nosql", "#etudiant"], son: { titre: "son original", artiste: null }, publieLe: new Date("2026-11-02T09:05:00Z") }));
+print("B3"); printjson(db.videos.updateOne({ auteur: moi._id, titre: "Ma première vidéo" }, { $inc: { vues: 1000, likes: 120 }, $addToSet: { hashtags: "#pourtoi" }, $set: { sondage: { question: "Mongo ou Postgres ?", options: [{ texte: "Mongo", votes: 0 }, { texte: "Postgres", votes: 0 }] } } }));
+print("B4"); printjson(db.videos.updateOne({ auteur: moi._id, "sondage.options.texte": "Mongo" }, { $inc: { "sondage.options.$.votes": 1 } }));
+printjson(db.videos.findOne({ auteur: moi._id }, { titre: 1, vues: 1, hashtags: 1, sondage: 1, _id: 0 }));
+print("B5"); const v = db.videos.findOne({ auteur: moi._id }); printjson(db.comments.insertMany([{ video: v._id, auteur: ObjectId("000000000000000000000001"), texte: "premier 🥇", likes: 0, posteLe: new Date() }, { video: v._id, auteur: ObjectId("000000000000000000000002"), texte: "faux", likes: 0, posteLe: new Date() }]));
+print("B6"); printjson(db.comments.deleteMany({ video: v._id })); printjson(db.videos.deleteOne({ _id: v._id })); printjson(db.users.deleteOne({ _id: moi._id }));
+print("B6check"); print(db.comments.countDocuments({ video: v._id }), db.videos.countDocuments({ _id: v._id }), db.users.countDocuments({ pseudo: "moi.nosql" }));
+print("C1"); print(db.users.countDocuments({ age: { $ne: 18 } }), db.users.countDocuments({ age: { $exists: true, $ne: 18 } }));
+print("C2"); print(db.videos.countDocuments({ hashtags: "#nosql", hashtags: "#humour" }), db.videos.countDocuments({ hashtags: { $all: ["#nosql", "#humour"] } }));
+print("C3"); print(db.videos.countDocuments({ "sondage.options.texte": "Non", "sondage.options.votes": { $gt: 4000 } }), db.videos.countDocuments({ "sondage.options": { $elemMatch: { texte: "Non", votes: { $gt: 4000 } } } }));
+print("C4"); print(db.videos.countDocuments({ hashtags: ["#nosql"] }), db.videos.countDocuments({ hashtags: "#nosql" }));

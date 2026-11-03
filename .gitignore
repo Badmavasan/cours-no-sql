@@ -1,0 +1,30 @@
+# Jeux de données téléchargés (volumineux, régénérables)
+tp-1/data/restaurants.json
+*.json.gz
+
+# Rendus des étudiants et corrections en cours
+tp-1/rendus/
+tp-1/corrige/*.local.*
+
+# Source interactive du deck (non publiée : seul le PDF est versionné)
+cours-1/index.html
+cours-1/theme.css
+cours-1/check*.html
+**/shots/
+
+# Volumes et secrets Docker locaux
+.env
+*.env.local
+**/mongo-data/
+
+# Système / éditeurs
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/
+*.swp
+
+# Notes enseignant et corrigés : gardés hors du dépôt
+cours-1/animateur.md
+tp-1/corrige/*
+!tp-1/corrige/.gitkeep

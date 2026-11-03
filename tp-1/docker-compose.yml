@@ -1,0 +1,36 @@
+# TP 1 — Restaurants de New York (MongoDB)
+# Démarrer :  docker compose up -d          (l'import des données se fait tout seul au premier démarrage)
+# Shell     :  docker exec -it tp-mongo mongosh restaurants
+# Réimporter:  docker compose down -v && docker compose up -d
+services:
+  mongo:
+    image: mongo:7.0
+    container_name: tp-mongo
+    ports:
+      - "27018:27017"          # 27018 sur votre machine, pour ne pas gêner le lab du cours (27017)
+    volumes:
+      - tp-data:/data/db
+      - ./data/restaurants.json:/import/restaurants.json:ro
+      - ./data/init.sh:/docker-entrypoint-initdb.d/init.sh:ro   # exécuté une seule fois, à la création du volume
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand({ ping: 1 }).ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Interface web facultative : http://localhost:8082  (admin / tp)
+  mongo-express:
+    image: mongo-express:1.0
+    container_name: tp-express
+    depends_on:
+      mongo:
+        condition: service_healthy
+    ports:
+      - "8082:8081"
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: tp
+
+volumes:
+  tp-data:

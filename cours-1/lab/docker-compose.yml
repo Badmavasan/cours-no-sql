@@ -1,0 +1,36 @@
+# Lab NoSQL — séance 1 : MongoDB pour l'app "Zwipe"
+# Démarrer :  docker compose up -d
+# Shell     :  docker exec -it zwipe-mongo mongosh zwipe
+# Seed      :  docker exec -i zwipe-mongo mongosh zwipe < seed.js
+# Arrêter   :  docker compose down        (ajouter -v pour effacer les données)
+services:
+  mongo:
+    image: mongo:7.0
+    container_name: zwipe-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - zwipe-data:/data/db
+      - ./seed.js:/seed.js:ro
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.runCommand({ ping: 1 }).ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  # Interface web facultative : http://localhost:8081  (admin / zwipe)
+  mongo-express:
+    image: mongo-express:1.0
+    container_name: zwipe-express
+    depends_on:
+      mongo:
+        condition: service_healthy
+    ports:
+      - "8081:8081"
+    environment:
+      ME_CONFIG_MONGODB_URL: mongodb://mongo:27017/
+      ME_CONFIG_BASICAUTH_USERNAME: admin
+      ME_CONFIG_BASICAUTH_PASSWORD: zwipe
+
+volumes:
+  zwipe-data:
